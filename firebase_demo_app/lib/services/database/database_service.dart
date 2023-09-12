@@ -1,7 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_demo_app/features/list_products/models/product.dart';
 
 class DatabaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  Future<List<Product>> getProducts() async {
+    QuerySnapshot<Map<String, dynamic>> productosSnapshot =
+        await _db.collection('productos').get();
+
+    final List<Product> listaProductos = productosSnapshot.docs.map((doc) {
+      return Product.fromDocumentSnapshot(doc);
+    }).toList();
+    return listaProductos;
+  }
 
   Future<void> saveDummyData() async {
     final productos = [

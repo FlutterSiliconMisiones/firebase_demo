@@ -1,7 +1,10 @@
+import 'package:firebase_demo_app/features/list_products/cubit/product_list_cubit.dart';
 import 'package:firebase_demo_app/services/database/database_service.dart';
+import 'package:firebase_demo_app/services/database/lib/services/database/database_repository_impl.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -17,7 +20,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppView();
+    return BlocProvider(
+      create: (context) => ProductListCubit(
+        DatabaseRepositoryImpl(),
+      ),
+      child: AppView(),
+    );
   }
 }
 
@@ -39,8 +47,23 @@ class AppView extends StatelessWidget {
             ),
           ],
         ),
-        body: Center(
-          child: Text('Hello World!'),
+        body: BlocBuilder<ProductListCubit, ProductListState>(
+          bloc: BlocProvider.of<ProductListCubit>(context)..getProducts(),
+          builder: (context, state) {
+            return (state.loading)
+                ? CircularProgressIndicator()
+                : Center(
+                    child: ListView.builder(
+                        itemCount: state.productList.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(state.productList[index].nombre),
+                            subtitle:
+                                Text('\$${state.productList[index].precio}'),
+                          );
+                        }),
+                  );
+          },
         ),
       ),
     );
