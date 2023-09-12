@@ -1,6 +1,6 @@
 import 'package:firebase_demo_app/features/list_products/cubit/product_list_cubit.dart';
 import 'package:firebase_demo_app/services/database/database_service.dart';
-import 'package:firebase_demo_app/services/database/lib/services/database/database_repository_impl.dart';
+import 'package:firebase_demo_app/services/database/database_repository_impl.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';

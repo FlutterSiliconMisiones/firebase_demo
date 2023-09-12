@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_demo_app/services/database/lib/services/database/database_repository_impl.dart';
+import 'package:firebase_demo_app/services/database/database_repository_impl.dart';
 import 'package:meta/meta.dart';
 
 import '../models/product.dart';
@@ -15,13 +15,19 @@ class ProductListCubit extends Cubit<ProductListState> {
   void getProducts() async {
     emit(state.copyWith(loading: true));
 
-    List<Product> productList = await _databaseRepository.getProducts();
+    // List<Product> productList = await _databaseRepository.getProducts();
+    Stream<List<Product>> productListStream =
+        _databaseRepository.getProductsStream();
 
-    emit(
-      state.copyWith(
-        loading: false,
-        productList: productList,
-      ),
+    productListStream.listen(
+      (event) {
+        emit(
+          state.copyWith(
+            loading: false,
+            productList: event,
+          ),
+        );
+      },
     );
   }
 

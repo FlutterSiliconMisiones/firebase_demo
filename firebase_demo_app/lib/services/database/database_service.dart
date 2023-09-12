@@ -14,6 +14,21 @@ class DatabaseService {
     return listaProductos;
   }
 
+  Stream<List<Product>> getProductsStream() {
+    Stream<QuerySnapshot<Map<String, dynamic>>> productosStream =
+        _db.collection('productos').snapshots();
+
+    // final List<Product> listaProductos = productosSnapshot.docs.map((doc) {
+    //   return Product.fromDocumentSnapshot(doc);
+    // }).toList();
+    // return listaProductos;
+    return productosStream.map((snapshot) {
+      return snapshot.docs
+          .map((doc) => Product.fromDocumentSnapshot(doc))
+          .toList();
+    });
+  }
+
   Future<void> saveDummyData() async {
     final productos = [
       {
