@@ -12,6 +12,14 @@ class ProductListCubit extends Cubit<ProductListState> {
 
   final DatabaseRepository _databaseRepository;
 
+  Future<void> deleteProduct(String productId) async {
+    emit(state.copyWith(loading: true));
+
+    await _databaseRepository.deleteProduct(productId);
+
+    emit(state.copyWith(loading: false));
+  }
+
   Future<void> addProduct(String nombre, double precio) async {
     emit(state.copyWith(loading: true));
 

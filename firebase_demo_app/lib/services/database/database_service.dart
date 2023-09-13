@@ -4,6 +4,10 @@ import 'package:firebase_demo_app/features/list_products/models/product.dart';
 class DatabaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  Future<void> deleteProduct(String productId) async {
+    await _db.collection('productos').doc(productId).delete();
+  }
+
   Future<void> addProduct(String nombre, double precio) async {
     await _db.collection('productos').add({
       'nombre': nombre,

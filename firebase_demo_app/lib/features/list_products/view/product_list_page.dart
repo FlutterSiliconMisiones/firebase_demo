@@ -17,7 +17,7 @@ class ProductListPage extends StatelessWidget {
               DatabaseService databaseService = DatabaseService();
               await databaseService.saveDummyData();
             },
-            icon: Icon(Icons.data_saver_on),
+            icon: const Icon(Icons.data_saver_on),
           ),
         ],
       ),
@@ -25,17 +25,24 @@ class ProductListPage extends StatelessWidget {
         bloc: BlocProvider.of<ProductListCubit>(context)..getProducts(),
         builder: (context, state) {
           return (state.loading)
-              ? CircularProgressIndicator()
+              ? const CircularProgressIndicator()
               : Center(
                   child: ListView.builder(
-                      itemCount: state.productList.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(state.productList[index].nombre),
-                          subtitle:
-                              Text('\$${state.productList[index].precio}'),
-                        );
-                      }),
+                    itemCount: state.productList.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(state.productList[index].nombre),
+                        subtitle: Text('\$${state.productList[index].precio}'),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () =>
+                              context.read<ProductListCubit>().deleteProduct(
+                                    state.productList[index].id,
+                                  ),
+                        ),
+                      );
+                    },
+                  ),
                 );
         },
       ),
