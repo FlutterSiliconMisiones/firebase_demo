@@ -1,7 +1,10 @@
 import 'package:firebase_demo_app/features/list_products/cubit/product_list_cubit.dart';
+import 'package:firebase_demo_app/features/list_products/view/product_list_page.dart';
 import 'package:firebase_demo_app/services/database/database_service.dart';
 import 'package:firebase_demo_app/services/database/database_repository_impl.dart';
 import 'package:flutter/material.dart';
+// import 'package:firebase_demo_app/l10n/l10n.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,37 +38,15 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              onPressed: () async {
-                DatabaseService databaseService = DatabaseService();
-                await databaseService.saveDummyData();
-              },
-              icon: Icon(Icons.data_saver_on),
-            ),
-          ],
-        ),
-        body: BlocBuilder<ProductListCubit, ProductListState>(
-          bloc: BlocProvider.of<ProductListCubit>(context)..getProducts(),
-          builder: (context, state) {
-            return (state.loading)
-                ? CircularProgressIndicator()
-                : Center(
-                    child: ListView.builder(
-                        itemCount: state.productList.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(state.productList[index].nombre),
-                            subtitle:
-                                Text('\$${state.productList[index].precio}'),
-                          );
-                        }),
-                  );
-          },
-        ),
-      ),
+      localizationsDelegates: [
+        DefaultMaterialLocalizations.delegate, // Agrega esta línea
+        // GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en', 'US'), // Cambia según tus preferencias
+      ],
+      home: ProductListPage(),
     );
   }
 }

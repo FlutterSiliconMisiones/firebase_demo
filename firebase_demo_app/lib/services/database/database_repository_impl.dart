@@ -5,6 +5,11 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   DatabaseService service = DatabaseService();
 
   @override
+  Future<void> addProduct(String nombre, double precio) {
+    return service.addProduct(nombre, precio);
+  }
+
+  @override
   Future<List<Product>> getProducts() {
     return service.getProducts();
   }
@@ -21,6 +26,7 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 }
 
 abstract class DatabaseRepository {
+  Future<void> addProduct(String nombre, double precio);
   Future<List<Product>> getProducts();
   Stream<List<Product>> getProductsStream();
   Future<void> saveDummyData();

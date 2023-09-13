@@ -4,6 +4,13 @@ import 'package:firebase_demo_app/features/list_products/models/product.dart';
 class DatabaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  Future<void> addProduct(String nombre, double precio) async {
+    await _db.collection('productos').add({
+      'nombre': nombre,
+      'precio': precio,
+    });
+  }
+
   Future<List<Product>> getProducts() async {
     QuerySnapshot<Map<String, dynamic>> productosSnapshot =
         await _db.collection('productos').get();
