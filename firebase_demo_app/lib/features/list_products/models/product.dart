@@ -13,7 +13,7 @@ class Product {
       DocumentSnapshot<Map<String, dynamic>> doc) {
     return Product(
       nombre: doc.data()!['nombre'] ?? '',
-      precio: doc.data()!['precio'] ?? 0,
+      precio: doc.data()!['precio'] ?? 0.0,
     );
   }
 
