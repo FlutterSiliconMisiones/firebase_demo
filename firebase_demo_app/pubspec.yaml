@@ -7,6 +7,8 @@ environment:
   sdk: ">=3.0.3 <4.0.0"
 
 dependencies:
+  authentication_repository:
+    path: packages/authentication_repository
   cloud_firestore: ^4.9.1
   equatable: ^2.0.5
   firebase_core: ^2.15.1
