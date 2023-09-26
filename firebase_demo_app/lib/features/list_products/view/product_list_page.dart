@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../app/bloc/app_bloc.dart';
 import '../../../services/database/database_service.dart';
 import '../cubit/product_list_cubit.dart';
 
 class ProductListPage extends StatelessWidget {
   const ProductListPage({super.key});
 
+  static Page<void> page() =>
+      const MaterialPage<void>(child: ProductListPage());
+
   @override
   Widget build(BuildContext context) {
+    final user = context.select((AppBloc bloc) => bloc.state.user);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -19,6 +24,13 @@ class ProductListPage extends StatelessWidget {
             },
             icon: Icon(Icons.data_saver_on),
           ),
+          IconButton(
+            key: const Key('homePage_logout_iconButton'),
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () {
+              context.read<AppBloc>().add(const AppLogoutRequested());
+            },
+          )
         ],
       ),
       body: BlocBuilder<ProductListCubit, ProductListState>(

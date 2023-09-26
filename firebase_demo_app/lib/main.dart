@@ -31,7 +31,7 @@ void main() async {
 //   @override
 //   Widget build(BuildContext context) {
 //     return BlocProvider(
-//       create: (context) => ProductListCubit(
+//  create: (context) => ProductListCubit(
 //         DatabaseRepositoryImpl(),
 //       ),
 //       child: AppView(),
